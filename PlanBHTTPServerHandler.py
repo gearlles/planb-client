@@ -2,8 +2,10 @@
 # -*-coding: utf8 -*-
 
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
+import mimetypes
 from os import curdir, sep
 from SocketServer import ThreadingMixIn
+import os
 import threading
 
 
@@ -13,31 +15,12 @@ class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
 
 class PlanBHTTPServerHandler(BaseHTTPRequestHandler):
 
-    @staticmethod
-    def has_permission_to_reply(file_path):
-        send_reply = False
-        mimetype = None
-        if file_path.endswith(".html"):
-            mimetype = 'text/html'
-            send_reply = True
-        if file_path.endswith(".jpg"):
-            mimetype = 'image/jpg'
-            send_reply = True
-        if file_path.endswith(".gif"):
-            mimetype = 'image/gif'
-            send_reply = True
-        if file_path.endswith(".js"):
-            mimetype = 'application/javascript'
-            send_reply = True
-        if file_path.endswith(".css"):
-            mimetype = 'text/css'
-            send_reply = True
-        if file_path.endswith(".ttf"):
-            mimetype = 'font/opentype'
-            send_reply = True
-        if file_path.endswith(".woff"):
-            mimetype = 'application/x-font-woff'
-            send_reply = True
+    allowed_extensions = ['.html', '.jpg', '.gif', '.js', '.css', '.tff', '.woff']
+
+    def has_permission_to_reply(self, file_path):
+        file_name, file_extension = os.path.splitext(file_path)
+        send_reply = file_extension in self.allowed_extensions
+        mimetype = mimetypes.guess_type(file_name + file_extension)
         return mimetype, send_reply
 
     def do_GET(self):
@@ -52,7 +35,7 @@ class PlanBHTTPServerHandler(BaseHTTPRequestHandler):
                 full_path = curdir + sep + "pages" + sep + file_path
                 f = open(full_path)
                 self.send_response(200)
-                #self.send_header('Content-type', mimetype)
+                self.send_header('Content-type', mimetype)
                 self.end_headers()
                 self.wfile.write(f.read())
                 f.close()
