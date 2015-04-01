@@ -3,6 +3,7 @@
 
 import wx
 import webbrowser
+from PlanBHTTPServerHandler import PlanBHTTPServer
 
 TRAY_TOOLTIP = 'System Tray Demo'
 TRAY_ICON = 'icon/network.png'
@@ -16,8 +17,9 @@ def create_menu_item(menu, label, func):
 
 
 class TaskBarIcon(wx.TaskBarIcon):
-    def __init__(self):
+    def __init__(self, port_number):
         super(TaskBarIcon, self).__init__()
+        self.port_number = port_number
         self.set_icon(TRAY_ICON)
         self.Bind(wx.EVT_TASKBAR_LEFT_DCLICK, self.on_double_click)
 
@@ -34,8 +36,7 @@ class TaskBarIcon(wx.TaskBarIcon):
         self.SetIcon(icon, TRAY_TOOLTIP)
 
     def on_double_click(self, event):
-        print 'Tray icon was left-clicked.'
-        webbrowser.open('http://www.google.com', new=0, autoraise=True)
+        webbrowser.open('http://localhost:%d' % (self.port_number,), new=0, autoraise=True)
 
     def on_settings(self, event):
         print 'Settings window.'
@@ -45,8 +46,12 @@ class TaskBarIcon(wx.TaskBarIcon):
 
 
 def main():
+    a = PlanBHTTPServer()
+    port_number = 1112
+    a.run(port_number)
+
     app = wx.App(False)
-    TaskBarIcon()
+    TaskBarIcon(port_number)
     app.MainLoop()
 
 
