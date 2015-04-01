@@ -7,7 +7,7 @@ from os import curdir, sep
 import os
 
 
-class PlanBHTTPServerHandler(BaseHTTPRequestHandler):
+class HttpServerHandler(BaseHTTPRequestHandler):
 
     allowed_extensions = ['.html', '.jpg', '.gif', '.js', '.css', '.tff', '.woff']
 

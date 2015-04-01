@@ -3,7 +3,7 @@
 
 import wx
 import webbrowser
-from httpserver import PlanBHTTPServer
+from httpserver import HttpServer
 
 TRAY_TOOLTIP = 'System Tray Demo'
 TRAY_ICON = 'icon/network.png'
@@ -46,7 +46,7 @@ class TaskBarIcon(wx.TaskBarIcon):
 
 
 def main():
-    a = PlanBHTTPServer()
+    a = HttpServer()
     port_number = 1112
     a.run(port_number)
 

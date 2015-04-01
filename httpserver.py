@@ -4,14 +4,14 @@
 import threading
 from BaseHTTPServer import HTTPServer
 from SocketServer import ThreadingMixIn
-from httpserverhandler import PlanBHTTPServerHandler
+from httpserverhandler import HttpServerHandler
 
 
 class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
     """Handle requests in a separate thread."""
 
 
-class PlanBHTTPServer():
+class HttpServer():
     def __init__(self):
         pass
 
@@ -21,7 +21,7 @@ class PlanBHTTPServer():
     @staticmethod
     def run_internal(port_number):
         try:
-            server = ThreadedHTTPServer(('', port_number), PlanBHTTPServerHandler)
+            server = ThreadedHTTPServer(('', port_number), HttpServerHandler)
             print 'Started httpserver on port ', server.server_port
             server.serve_forever()
 
