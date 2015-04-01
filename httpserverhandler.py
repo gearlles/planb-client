@@ -9,7 +9,7 @@ import os
 
 class HttpServerHandler(BaseHTTPRequestHandler):
 
-    allowed_extensions = ['.html', '.jpg', '.gif', '.js', '.css', '.tff', '.woff']
+    allowed_extensions = ['.html', '.jpg', '.gif', '.ico', '.js', '.css', '.tff', '.woff']
 
     def has_permission_to_reply(self, file_path):
         file_name, file_extension = os.path.splitext(file_path)
@@ -25,7 +25,7 @@ class HttpServerHandler(BaseHTTPRequestHandler):
         try:
             mimetype, send_reply = self.has_permission_to_reply(file_path)
 
-            if True:
+            if send_reply:
                 full_path = curdir + sep + "pages" + sep + file_path
                 f = open(full_path)
                 self.send_response(200)
