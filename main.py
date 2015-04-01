@@ -3,7 +3,7 @@
 
 import wx
 import webbrowser
-from PlanBHTTPServerHandler import PlanBHTTPServer
+from httpserver import PlanBHTTPServer
 
 TRAY_TOOLTIP = 'System Tray Demo'
 TRAY_ICON = 'icon/network.png'
